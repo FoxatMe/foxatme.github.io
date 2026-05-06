@@ -5,96 +5,258 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Фасад</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
         body {
             margin: 0;
+            height: 100%;
+            overflow: hidden;
+            user-select: none;
             font-family: Arial, sans-serif;
             background: url('assets/images/bg.jpg') no-repeat center center/cover;
+            color: #fff;
+        }
+
+        .container {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            height: 100%;
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.1);
+            width: 720px;
+            height: 480px;
+            display: flex;
             border-radius: 20px;
-            padding: 30px;
-            width: 320px;
-            text-align: center;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .left,
+        .right {
+            width: 50%;
+            padding: 20px;
+        }
+
+        .left {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid rgba(255, 255, 255, 0.15);
         }
 
         .avatar img {
-            width: 120px;
-            height: 120px;
+            width: 110px;
+            height: 110px;
             border-radius: 50%;
             border: 2px solid rgba(255, 255, 255, 0.3);
-            margin-bottom: 15px;
         }
 
-        h1 {
+        .info {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .info h1 {
+            margin: 5px 0;
+            font-size: 22px;
+        }
+
+        .info p {
             margin: 0;
-            color: #fff;
-        }
-
-        p {
-            color: rgba(255, 255, 255, 0.7);
             font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
         }
 
-        .buttons {
+        .main-links {
+            margin-top: 20px;
             display: flex;
             flex-direction: column;
             gap: 10px;
-            margin: 20px 0;
+            width: 100%;
         }
 
-        .buttons a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+        .main-links a {
             padding: 10px;
             border-radius: 10px;
+            text-align: center;
             text-decoration: none;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.25);
             color: #fff;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
-            transition: 0.3s;
+            transition: 0.25s;
         }
 
-        .buttons a:hover {
-            background: rgba(255, 255, 255, 0.2);
+        .main-links a:hover {
             transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.25);
         }
 
         .footer {
             margin-top: 15px;
             font-size: 12px;
             color: rgba(255, 255, 255, 0.5);
+            text-align: center;
+        }
+
+        .right {
+            overflow-y: auto;
+            overflow-x: hidden;
+            user-select: text;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .right::-webkit-scrollbar {
+            width: 0;
+        }
+
+        .right {
+            scrollbar-width: none;
+        }
+
+        .right h1,
+        .right h2,
+        .right h3 {
+            margin: 10px 0;
+        }
+
+        .right p {
+            margin: 6px 0;
+        }
+
+        .right a {
+            color: #7cc7ff;
+            text-decoration: underline;
+        }
+
+        .right ul {
+            padding-left: 20px;
+        }
+
+        .right img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .right hr {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .right pre {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 10px;
+            overflow: auto;
+            white-space: pre;
+            scrollbar-width: none;
+        }
+
+        .right pre::-webkit-scrollbar {
+            display: none;
+        }
+
+        .table-wrapper {
+            border-radius: 10px;
+            overflow-x: auto;
+            max-width: 100%;
+            margin: 10px 0;
+            scrollbar-width: none;
+        }
+
+        .table-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+        .right table {
+            border-collapse: collapse;
+            min-width: 600px;
+            width: 100%;
+        }
+
+        .right th,
+        .right td {
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 6px 10px;
+            text-align: left;
+        }
+
+        .right thead tr {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .right tbody tr:nth-child(odd) {
+            background: transparent;
+        }
+
+        .right tbody tr:nth-child(even) {
+            background: rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
 
 <body>
-    <div class="card">
-        <div class="avatar">
-            <img src="https://github.com/FoxatMe.png" alt="Avatar">
+
+    <div class="container">
+        <div class="card">
+
+            <div class="left">
+                <div class="avatar">
+                    <img src="https://github.com/FoxatMe.png" alt="Avatar">
+                </div>
+
+                <div class="info">
+                    <h1>Фасад</h1>
+                    <p>Хз, чел какой-то.</p>
+                </div>
+
+                <div class="main-links">
+                    <a href="https://www.twitch.tv/FoxatMe" target="_blank">Twitch</a>
+                    <a href="https://www.youtube.com/@FoxatMe" target="_blank">YouTube</a>
+                    <a href="https://t.me/FoxatMe" target="_blank">Telegram</a>
+                    <a href="https://github.com/FoxatMe" target="_blank">GitHub</a>
+                </div>
+
+                <div class="footer">© 2026 FoxatMe</div>
+            </div>
+
+            <div class="right" id="readme">
+            </div>
+
         </div>
-        <h1>Фасад</h1>
-        <p>Хз, чел какой-то</p>
-        <div class="buttons">
-            <a href="https://www.twitch.tv/FoxatMe" target="_blank"><span>Twitch</span></a>
-            <a href="https://www.youtube.com/@FoxatMe" target="_blank"><span>YouTube</span></a>
-            <a href="https://t.me/FoxatMe" target="_blank"><span>Telegram</span></a>
-            <a href="https://github.com/FoxatMe" target="_blank"><span>GitHub</span></a>
-        </div>
-        <div class="footer">© 2026 FoxatMe</div>
     </div>
+
+    <script>
+        fetch('https://raw.githubusercontent.com/FoxatMe/FoxatMe/main/README.md')
+            .then(res => res.text())
+            .then(text => {
+                let html = marked.parse(text);
+
+                html = html.replace(/<table>/g, '<div class="table-wrapper"><table>');
+                html = html.replace(/<\/table>/g, '</table></div>');
+
+                document.getElementById('readme').innerHTML = html;
+            })
+            .catch(err => {
+                document.getElementById('readme').textContent = 'Ошибка загрузки README';
+                console.error(err);
+            });
+    </script>
+
 </body>
 
 </html>
